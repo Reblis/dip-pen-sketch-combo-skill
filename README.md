@@ -12,7 +12,7 @@ It produces **two separate images** from one photo: a pure black-ink line sketch
 
 The trick: the outline isn't a separate generation — it's **derived directly from the finished colored image** (the marker fills are stripped away, the ink is kept), so the linework matches **stroke-for-stroke by construction**. Both images are then flattened to the **same background color** so the pair looks like one drawing in two finishes.
 
-> Prefer just one finish? See the sibling skills **[dip-pen-sketch-outline](https://github.com/Reblis/dip-pen-sketch-outline-skill)** (ink only) and **[dip-pen-sketch-color](https://github.com/Reblis/dip-pen-sketch-color-skill)** (color only).
+> Prefer just one finish? See the sibling skills **[dip-pen-sketch-outline](https://github.com/Reblis/dip-pen-sketch-outline-skill)** (ink only) and **[dip-pen-sketch-color](https://github.com/Reblis/dip-pen-sketch-color-skill)** (color only). Want this pair **plus a video of it being drawn**? **[dip-pen-sketch-animation](https://github.com/Reblis/dip-pen-sketch-animation-skill)**.
 
 ## Install
 

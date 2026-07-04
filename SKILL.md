@@ -13,7 +13,7 @@ Both share **stroke-for-stroke identical linework** and **an identical flat back
 
 > ⚠️ **The one rule that makes this skill work — never deviate.** `fal-ai/nano-banana-2/edit` **redraws its linework on every pass**, so "paint color on top of the outline" does NOT produce matching lines (the two drift — "one bigger than the other", doubled outlines when overlaid). Do **not** deliver a separately-generated outline, and do **not** try to fix drift afterward by compositing / blurring / morphology — every one of those degrades the marker. The ONLY supported method is: generate color → derive the outline from that color (Step 5). This is settled; do not re-litigate it with the user.
 
-For just one finish, use **dip-pen-sketch-outline** (ink only) or **dip-pen-sketch-color** (color only).
+For just one finish, use **dip-pen-sketch-outline** (ink only) or **dip-pen-sketch-color** (color only). For this same matched pair **plus an MP4 of the drawing process** (pen strokes first, then marker sweeps), use **dip-pen-sketch-animation**.
 
 ## Requirements
 
