@@ -44,8 +44,16 @@ Resolve in **Step 0** (same as the sibling skills):
    `Read` `/tmp/_dippen_src.jpg` to note the subject(s), clothing, key features (for the "keep recognizable" clause) and garment colors (for the color step).
 
 2. **Get a URL fal can fetch (`$IMG_URL`)** for the source. *(Skip for direct-URL passthrough.)*
-   - **Upload to fal's CDN (portable):** `mcp__fal-ai__upload_file` with `/tmp/_dippen_src.jpg` as base64 `data` → returned `url`.
-   - **Your own web server:** copy into its docroot and use that public URL, e.g. `https://<your-site>/_dippen_src.jpg`.
+   - **Upload to fal's CDN via REST (reliable default):** don't pass the image as base64 `data` through `mcp__fal-ai__upload_file` — a ~1024px JPEG encodes to ~190K base64 chars, which overflows a tool call and gets truncated. Use fal's REST upload with the same key the fal MCP server is configured with:
+     ```bash
+     resp=$(curl -s -X POST "https://rest.alpha.fal.ai/storage/upload/initiate" \
+       -H "Authorization: Key $FAL_KEY" -H "Content-Type: application/json" \
+       -d '{"file_name":"_dippen_src.jpg","content_type":"image/jpeg"}')
+     upload_url=$(echo "$resp" | python3 -c "import sys,json;print(json.load(sys.stdin)['upload_url'])")
+     IMG_URL=$(echo "$resp" | python3 -c "import sys,json;print(json.load(sys.stdin)['file_url'])")
+     curl -s -o /dev/null -w '%{http_code}' -X PUT "$upload_url" -H "Content-Type: image/jpeg" --data-binary @/tmp/_dippen_src.jpg   # expect 200
+     ```
+   - **Your own web server:** copy into its docroot and use that public URL, e.g. `https://<your-site>/_dippen_src.jpg` (delete it after the run).
 
 3. **Generate the BASE ink sketch.** `mcp__fal-ai__run_model`, `fal-ai/nano-banana-2/edit`:
    - `image_urls`: `[$IMG_URL]`; `resolution`: `"2K"`; `output_format`: `"jpeg"`; `aspect_ratio`: `"auto"`
