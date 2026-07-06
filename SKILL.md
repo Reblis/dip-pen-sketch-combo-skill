@@ -91,8 +91,21 @@ Resolve in **Step 0** (same as the sibling skills):
    for f in ${NAME}_combo_outline ${NAME}_combo_color; do echo "$f -> $(convert "$f.jpg" -format '%[pixel:p{3,3}]' info:)"; done   # both should read 255,255,255
    ```
    (Default target is pure white `#FFFFFF`. To match on cream paper instead, use the SAME `-fill '#F4EEE2'` for both files.)
+   ⚠️ **Check the sampled pixel is actually paper before flooding.** If artwork covers that corner (e.g. a flag/background element reaching the frame edge), `p{3,3}` returns a dark artwork color and the `-opaque` flood will eat dark ink across the whole image. If the sample isn't near-white, pick a pixel that IS blank paper (e.g. top-center `p{w/2,20}`) and re-run the whiten from a fresh copy.
 
-7. **`Read` both final files**, present them as **two separate images** (outline + color), report both paths, and confirm lines + background match. Offer tweaks (rougher, more/less marker, crop, 4K, or bolder/lighter ink via the Step-5 levels).
+7. **Shave the paper-edge slivers off BOTH files (identical crop — keeps them pixel-matched).** Nano Banana 2 renders the sketch as a *photo of a real paper sheet*, and at the frame edges it draws the sheet's edge — curled corners / dark desk slivers hugging the borders. The whiten pass can't catch them (they're dark, not paper-toned), and the Step-5 derive sharpens them into what look like stray black ink lines in the corners. Field-tested fix (2026-07): shave the outer border from both finals:
+   ```bash
+   cd /tmp
+   for f in ${NAME}_combo_outline ${NAME}_combo_color; do convert "$f.jpg" -shave 45x45 "$f.jpg"; done
+   ```
+   Then crop-inspect all four corners of the outline (e.g. `-crop 350x350+<x>+<y>`) to confirm the slivers are gone; if a curl survives, shave a bit more. Intended ink-splatter dots and artwork bleeding off the page edge are fine — only remove edge-hugging dark curves/slivers.
+
+8. **Deliver to the sketches folder** — finals never stay in `/tmp`; `/tmp` is for intermediates only. Default folder `/root/projects/dip-pen-sketches/sketches/` (create it if missing, adapt per install):
+   ```bash
+   cp /tmp/${NAME}_combo_outline.jpg /root/projects/dip-pen-sketches/sketches/${NAME}_combo-outline.jpg
+   cp /tmp/${NAME}_combo_color.jpg   /root/projects/dip-pen-sketches/sketches/${NAME}_combo-color.jpg
+   ```
+   **`Read` both final files**, present them as **two separate images** (outline + color), report both sketches-folder paths, and confirm lines + background match. Offer tweaks (rougher, more/less marker, crop, 4K, or bolder/lighter ink via the Step-5 levels).
 
 ## OUTLINE prompt (image #1)
 
